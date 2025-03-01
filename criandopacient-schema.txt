@@ -1,0 +1,2 @@
+To start creating a patient first let's create a schema for the patient collection we're not talking about creating document not directly in the file. Do that within the code using API calls and the patient will have a lot of attributes.
+
