@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,6 +16,7 @@ import PhoneInput from 'react-phone-number-input'
 import { E164Number } from "libphonenumber-js/core"
 
 interface CustomProps {
+
   control: Control<any>,
   fieldType: FormFieldType,
   name: string,
@@ -31,6 +32,7 @@ interface CustomProps {
 }
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { fieldType, iconSrc, iconAlt, placeholder, } = props;
 
   switch (props.fieldType) {
