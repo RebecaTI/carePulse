@@ -37,6 +37,7 @@ const PatientForm = () => {
 
   async function onSubmit({ name, email, phone }: z.infer<typeof UserFormValidation>) {
     setIsLoading(true)
+    console.log('form submmited')
 
     try {
       const userData = { name, email, phone }
@@ -44,13 +45,16 @@ const PatientForm = () => {
       const user = await createUser(userData);
 
       if (user) router.push(`/patients/${user.$id}/register`)
+      console.log(user)
     } catch (error) {
       console.log(error)
     }
+    setIsLoading(false)
   }
 
   return (
     <Form {...form}>
+
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
         <section className="mb-12 space-y-4">
           <h1 className="header">H1 there 👋</h1>
@@ -70,7 +74,7 @@ const PatientForm = () => {
         <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
-          name="name"
+          name="email"
           label="Email"
           placeholder="johndoe@jsmastery.pro"
           iconSrc="/assets/icons/email.svg"
@@ -88,7 +92,7 @@ const PatientForm = () => {
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
 
       </form>
-    </Form>
+    </Form >
   )
 }
 
