@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../../Origamid"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Origamid"
+	}
+}
