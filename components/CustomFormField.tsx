@@ -14,6 +14,9 @@ import Image from "next/image"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { E164Number } from "libphonenumber-js/core"
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 interface CustomProps {
 
@@ -33,7 +36,7 @@ interface CustomProps {
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { fieldType, iconSrc, iconAlt, placeholder, } = props;
+  const { fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton } = props;
 
   switch (props.fieldType) {
     case FormFieldType.INPUT:
@@ -81,12 +84,25 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             alt="calendar"
             className="ml-2"
           />
+          <FormControl>
+            <>
+              <DatePicker
+                selected={field.value}
+                onChange={(date) => field.onChange(date)}
+                dateFormat={dateFormat ?? 'MM/dd/yyyy'}
+                showTimeSelect={showTimeSelect ?? false}
+                timeInputLabel="Time:"
+                wrapperClassName="date-picker"
+              />
+            </>
+          </FormControl>
         </div>
       )
+    case FormFieldType.SKELETON:
+      return renderSkeleton ? renderSkeleton(field) : null
     default:
       break;
   }
-
 }
 
 const CustomFormField = (props: CustomProps) => {
@@ -97,15 +113,15 @@ const CustomFormField = (props: CustomProps) => {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex-1">
+        <FormItem className="flex-1" key={field.name}>
           {fieldType !== FormFieldType.CHECKBOX && label && (
             <FormLabel> {label} </FormLabel>
           )}
-
           <RenderField field={field} props={props} />
 
           <FormMessage className="shad-error" />
         </FormItem>
+
       )}
     />
   )
