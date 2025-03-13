@@ -58,7 +58,6 @@ const RegisterForm = ({ user }: { user: User }) => {
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
             <h2 className="sub-header">Personal information</h2>
-
           </div>
         </section>
 
@@ -121,12 +120,61 @@ const RegisterForm = ({ user }: { user: User }) => {
           />
         </div>
 
-
         <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="addres"
+            label="Address"
+            placeholder="th Street, New York"
+          />
 
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="occupation"
+            label="Occupation"
+            placeholder="Software Engineer"
+          />
         </div>
 
         <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="emergencyContactName"
+            label="Emergency contact name"
+            placeholder="Guardians's name"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.PHONE_INPUT}
+            control={form.control}
+            name="emergencyContactNumber"
+            label="Emergency contact number"
+            placeholder="(555) 123-456789"
+          />
+        </div>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">Medical Information</h2>
+          </div>
+        </section>
+
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
+          control={form.control}
+          name="primaryPhysician"
+          label="Primary Physician"
+          placeholder="Select a physician"
+        >
+          {Doctors.map((doctor) => (
+            <SelectItem></SelectItem>
+          ))}
+        </CustomFormField>
+
+        <div className="flex flex-col gap- xl:flex-rol" >
 
         </div>
 
