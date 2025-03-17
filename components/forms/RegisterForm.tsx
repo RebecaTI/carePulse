@@ -215,13 +215,37 @@ const RegisterForm = ({ user }: { user: User }) => {
           />
 
           <CustomFormField
-            fieldType={FormFieldType.INPUT}
+            fieldType={FormFieldType.TEXTAREA}
             control={form.control}
             name="currentMedication"
             label="Curerent medication (if any)"
             placeholder="Ibuprofen 200mg, Paracetamol 500mg"
           />
         </div>
+
+        <div className="flex flex-col  gap-4 xl:flex-row" >
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="FamilyMedicalHistory"
+            label="Family medical history"
+            placeholder="Mother had brain cancer, Father had heart disease"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="pastMedicalHistory"
+            label="Past medical history"
+            placeholder="Appendectomy, Tonsillectomy"
+          />
+        </div>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">Identification and Verification</h2>
+          </div>
+        </section>
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
 
