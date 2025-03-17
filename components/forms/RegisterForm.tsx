@@ -13,8 +13,10 @@ import { useRouter } from "next/navigation"
 import { createUser } from "@/lib/actions/patient.actions"
 import { FormFieldType } from "./PatientForm"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
-import { GenderOptions } from "@/constants"
+import { Doctors, GenderOptions } from "@/constants"
 import { Label } from "../ui/label"
+import { SelectItem } from "../ui/select"
+import Image from "next/image"
 
 
 const RegisterForm = ({ user }: { user: User }) => {
@@ -170,12 +172,55 @@ const RegisterForm = ({ user }: { user: User }) => {
           placeholder="Select a physician"
         >
           {Doctors.map((doctor) => (
-            <SelectItem></SelectItem>
+            <SelectItem key={doctor.name} value={doctor.name}>
+              <div className="flex cursor-pointer items-center gap-2">
+                <Image
+                  src={doctor.image}
+                  width={32}
+                  height={32}
+                  alt={doctor.name}
+                  className="rounded-full border border-dark-500"
+                />
+                <p>{doctor.name}</p>
+              </div>
+            </SelectItem>
           ))}
         </CustomFormField>
 
-        <div className="flex flex-col gap- xl:flex-rol" >
+        <div className="flex flex-col  gap-4 xl:flex-row" >
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="insuranceProvider"
+            label="Insurance provice"
+            placeholder="BlueCross BlueShield"
+          />
 
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="insurancePolicyNumber"
+            label="Insurance policy number"
+            placeholder="ABC123456789"
+          />
+        </div>
+
+        <div className="flex flex-col  gap-4 xl:flex-row" >
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="allergies"
+            label="Allergies (if any)"
+            placeholder="Penut, Penicillin, Pollen"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="currentMedication"
+            label="Curerent medication (if any)"
+            placeholder="Ibuprofen 200mg, Paracetamol 500mg"
+          />
         </div>
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
