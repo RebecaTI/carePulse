@@ -10,7 +10,7 @@ import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { PatientFormValidation, UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
-import { createUser } from "@/lib/actions/patient.actions"
+import { createUser, registerPatient } from "@/lib/actions/patient.actions"
 import { FormFieldType } from "./PatientForm"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constants"
@@ -27,14 +27,12 @@ const RegisterForm = ({ user }: { user: User }) => {
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
       ...PatientFormDefaultValues,
-      name: "",
-      email: "",
-      phone: "",
     },
   })
 
   async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
     setIsLoading(true)
+    console.log('alguma coisa')
 
     let formData;
 
@@ -51,11 +49,13 @@ const RegisterForm = ({ user }: { user: User }) => {
     try {
       const patientData = {
         ...values,
+        gender: String(values.gender).toLowerCase(),
         userId: user.$id,
         birthDate: new Date(values.birthDate),
         identificationDocument: formData,
       }
 
+      // @ts-expect-error test
       const patient = await registerPatient(patientData);
 
       if (patient) router.push(`/patients/${user.$id}/new-appointment`)
@@ -82,7 +82,7 @@ const RegisterForm = ({ user }: { user: User }) => {
         <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
-          name="name"
+          name="firstName"
           label="Full Name"
           placeholder="John Doe"
           iconSrc="/assets/icons/user.svg"
@@ -114,7 +114,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             fieldType={FormFieldType.DATE_PICKER}
             control={form.control}
             name="birthDate"
-            label="Date of Birth teste"
+            label="Date of Birth"
 
           />
 
@@ -124,7 +124,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             name="gender"
             label="Gender"
             renderSkeleton={(field) => <FormControl>
-              <RadioGroup className="flex h-11 gap-6 xl:justify-between" onValueChange={field.onChange} defaultValue={field.value}>
+              <RadioGroup className="flex h-11 gap-6 xl:justify-between" onChange={field.onChange} defaultValue={field.value}>
                 {GenderOptions.map((option) => (
                   <div key={option} className="radio-group">
                     <RadioGroupItem value={option} id={option} />
@@ -142,7 +142,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           <CustomFormField
             fieldType={FormFieldType.INPUT}
             control={form.control}
-            name="addres"
+            name="address"
             label="Address"
             placeholder="th Street, New York"
           />

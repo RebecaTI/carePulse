@@ -23,7 +23,7 @@ const FileUploader = ({ files, onChange }: FileUploaderProps) => {
         <Image src={convertFileToUrl(files[0])} width={1000} height={1000} alt="uploaded image" className="max-h-[400px] overflow-hidden object-cover"
         />
       ) : (
-        <>
+        <div>
           <Image
             src="/assets/icons/upload.svg"
             width={40}
@@ -38,7 +38,7 @@ const FileUploader = ({ files, onChange }: FileUploaderProps) => {
               SVG, PNG, JPG of Gif(max 800x40)
             </p>
           </div>
-        </>
+        </div>
       )}
     </div>
   )
