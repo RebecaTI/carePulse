@@ -7,7 +7,7 @@ import { Form } from "@/components/ui/form"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { useState } from "react"
-import { UserFormValidation } from "@/lib/validation"
+import { AppointmentFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
 import { createUser } from "@/lib/actions/patient.actions"
 import { FormFieldType } from "./PatientForm"
@@ -15,26 +15,27 @@ import { Doctors } from "@/constants"
 import { SelectItem } from "../ui/select"
 import Image from "next/image"
 
-const AppointmentForm = (
+const AppointmentForm = ({
   userId, patientId, type
-): {
+}): {
   userId: string;
   patientId: string;
-  type: "create" | "cancel";
+  type: "create" | "cancel" | "schedule";
 } => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<z.infer<typeof UserFormValidation>>({
-    resolver: zodResolver(UserFormValidation),
+  const form = useForm<z.infer<typeof AppointmentFormValidation>>({
+    resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
+      primaryPhysician: "",
+      schedule: new Date(),
+      reason: "",
+      notes: "",
     },
   })
 
-  async function onSubmit({ name, email, phone }: z.infer<typeof UserFormValidation>) {
+  async function onSubmit({ name, email, phone }: z.infer<typeof AppointmentFormValidation>) {
     setIsLoading(true)
     console.log('form submmited')
 
@@ -49,6 +50,22 @@ const AppointmentForm = (
       console.log(error)
     }
     setIsLoading(false)
+  }
+
+  let buttonLabel;
+
+  switch (type) {
+    case 'cancel':
+      buttonLabel = 'Cancel Appointment';
+      break;
+    case 'create':
+      buttonLabel = 'Create Appointment';
+      break;
+    case 'schedule':
+      buttonLabel = 'Schedule Appointment';
+      break;
+    default:
+      break;
   }
 
   return (
@@ -66,8 +83,8 @@ const AppointmentForm = (
               fieldType={FormFieldType.SELECT}
               control={form.control}
               name="primaryPhysician"
-              label="Primary Physician"
-              placeholder="Select a physician"
+              label="Doctor"
+              placeholder="Select a doctor"
             >
               {Doctors.map((doctor) => (
                 <SelectItem key={doctor.name} value={doctor.name}>
@@ -84,10 +101,47 @@ const AppointmentForm = (
                 </SelectItem>
               ))}
             </CustomFormField>
+
+            <CustomFormField
+              fieldType={FormFieldType.DATE_PICKER}
+              control={form.control}
+              name="schedule"
+              label="Expected appointment date"
+              showTimeSelect
+              dateFormat="MM/dd/yyyy - h:mm aa"
+            />
+
+            <div className="flex flex-col gap-6 xl:flex-row">
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                control={form.control}
+                name="reason"
+                label="Reason for appointment"
+                placeholder="Enter reason for appointment"
+              />
+
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                control={form.control}
+                name="notes"
+                label="Notes"
+                placeholder="Add any additional notes"
+              />
+            </div>
           </>
         )}
 
-        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
+        {type === "cancel" && (
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="cancellationReason"
+            label="Reason for cancellation"
+            placeholder="Enter reason for cancellation"
+          />
+        )}
+
+        <SubmitButton isLoading={isLoading} className={`${type === 'cancel' ? 'shad-danger-btn' : 'shad-primary-btn'} w-full`}>{buttonLabel}</SubmitButton>
 
       </form>
     </Form >

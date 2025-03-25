@@ -40,5 +40,3 @@ export default function Home() {
     </ div>
   )
 }
-
-// 01:50
