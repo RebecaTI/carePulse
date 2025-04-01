@@ -1,3 +1,5 @@
+'use client'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,20 +11,63 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+import Image from "next/image"
+import { useRouter } from "next/router"
+import { useState } from "react"
 
 
 const PasskeyModal = () => {
+  const router = useRouter()
+  const [open, setOpen] = useState(true);
+  const [first, setfirst] = useState(second)
+  const closeModal = () => {
+    setOpen(false)
+    router.push('/')
+  }
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger>Open</AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="shad-alert-dialog">
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle className="flex items-start justify-between" >
+            Admin Acess Verification
+            <Image
+              src="/asets/icons/close.svg"
+              alt="close"
+              width={20}
+              height={20}
+              onClick={() => closeModal()}
+            />
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
+            To acces the admin page, please enter the passkey.
           </AlertDialogDescription>
         </AlertDialogHeader>
+
+        <div>
+          <InputOTP maxLength={6}>
+            <InputOTPGroup>
+              <InputOTPSlot index={0} />
+              <InputOTPSlot index={1} />
+              <InputOTPSlot index={2} />
+            </InputOTPGroup>
+            <InputOTPSeparator />
+            <InputOTPGroup>
+              <InputOTPSlot index={3} />
+              <InputOTPSlot index={4} />
+              <InputOTPSlot index={5} />
+            </InputOTPGroup>
+          </InputOTP>
+
+        </div>
+
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction>Continue</AlertDialogAction>
