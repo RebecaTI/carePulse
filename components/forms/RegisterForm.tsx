@@ -117,7 +117,6 @@ const RegisterForm = ({ user }: { user: User }) => {
             control={form.control}
             name="birthDate"
             label="Date of Birth"
-
           />
 
           <CustomFormField
