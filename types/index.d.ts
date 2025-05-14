@@ -5,7 +5,7 @@ declare type SearchParamProps = {
   searchParams: Promise< { [key: string]: string | string[] | undefined }>;
 };
 
-declare type Gender = "Male" | "Female" | "Other";
+declare type Gender = "male" | "female" | "other";
 declare type Status = "pending" | "scheduled" | "cancelled";
 
 declare interface CreateUserParams {
@@ -13,6 +13,7 @@ declare interface CreateUserParams {
   email: string;
   phone: string;
 }
+
 declare interface User extends CreateUserParams {
   $id: string;
 }

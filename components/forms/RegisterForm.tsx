@@ -27,12 +27,14 @@ const RegisterForm = ({ user }: { user: User }) => {
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
       ...PatientFormDefaultValues,
+      name: "",
+      email: "",
+      phone: "",
     },
   })
 
   async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
     setIsLoading(true)
-    console.log('alguma coisa')
 
     let formData;
 
@@ -115,7 +117,6 @@ const RegisterForm = ({ user }: { user: User }) => {
             control={form.control}
             name="birthDate"
             label="Date of Birth"
-
           />
 
           <CustomFormField
