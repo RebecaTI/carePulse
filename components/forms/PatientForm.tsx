@@ -3,13 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
+import { createUser } from "@/lib/actions/patient.actions"
 
 export enum FormFieldType {
   INPUT = 'input',
@@ -36,20 +36,24 @@ const PatientForm = () => {
 
   async function onSubmit({ name, email, phone }: z.infer<typeof UserFormValidation>) {
     setIsLoading(true)
+    console.log('form submmited')
 
     try {
-      // const userData = { name, email, phone }
+      const userData = { name, email, phone }
 
-      // const user = await createUser(userData);
+      const user = await createUser(userData);
 
-      // if (user) router.push(`/patients/${user.$id}/register`)
+      if (user) router.push(`/patients/${user.$id}/register`)
+      console.log(user)
     } catch (error) {
       console.log(error)
     }
+    setIsLoading(false)
   }
 
   return (
     <Form {...form}>
+
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
         <section className="mb-12 space-y-4">
           <h1 className="header">H1 there 👋</h1>
@@ -66,10 +70,11 @@ const PatientForm = () => {
           iconAlt="user"
         />
 
+
         <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
-          name="name"
+          name="email"
           label="Email"
           placeholder="johndoe@jsmastery.pro"
           iconSrc="/assets/icons/email.svg"
@@ -87,7 +92,7 @@ const PatientForm = () => {
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
 
       </form>
-    </Form>
+    </Form >
   )
 }
 
